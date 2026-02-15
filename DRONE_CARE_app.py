@@ -100,7 +100,7 @@ st.markdown(f"""
 # ==========================================
 # 4. Data Loading & Mapping
 # ==========================================
-FILENAME = "Supplemental Drone Telemetry Data - Drone Operations Log _test11.csv"
+FILENAME = "data.csv"
 
 @st.cache_data
 def load_clean_data():
@@ -515,4 +515,5 @@ elif selection == "👥 About Us":
         st.markdown("<div style='background:#001d3d; padding:20px; border-radius:15px; text-align:center;'><h2>⚙️</h2><h4>Machine Learning</h4><p>Leveraging Random Forest for high-accuracy risk classification.</p></div>", unsafe_allow_html=True)
 
     st.markdown("---")
+
     st.caption("© 2026 Drone Care Team - UTAS. Empowering Safer Skies through Intelligence.")

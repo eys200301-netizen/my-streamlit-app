@@ -32,11 +32,7 @@ if 'nav_selection' not in st.session_state:
 def move_to_dash():
     st.session_state.nav_selection = "📊 Dashboard"
 
-# ==========================================
-# 3. Custom CSS Styling
-# ==========================================
-# ==========================================
-# 3. Premium Transparent & Glassmorphic CSS
+
 # ==========================================
 st.markdown(f"""
     <style>
@@ -100,7 +96,7 @@ st.markdown(f"""
 # ==========================================
 # 4. Data Loading & Mapping
 # ==========================================
-FILENAME = "data.csv"
+FILENAME = "Supplemental Drone Telemetry Data - Drone Operations Log _test11.csv"
 
 @st.cache_data
 def load_clean_data():
@@ -125,7 +121,7 @@ MAPS = {
 @st.cache_resource
 def load_drone_model():
     try:
-        with open("rf_drone_model11.pkl", "rb") as f: return pickle.load(f)
+        with open("random_forest_model.pkl", "rb") as f: return pickle.load(f)
     except: return None
 
 model = load_drone_model()
@@ -187,7 +183,7 @@ if selection == "🏠 Home":
     st.markdown("""
         <div class="hero-text">
             <h1 class="main-title">DRONE<span style='color:white;'>CARE</span></h1>
-            <p class="sub-title">Advanced Predictive Maintenance Ecosystem</p>
+            <p class="sub-title">An Intelligent System for Predicting Drone Failures Using AI </p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -202,8 +198,8 @@ if selection == "🏠 Home":
         st.markdown(f"""
             <div class="feature-card">
                 <h2 style='font-size:40px;'>📊</h2>
-                <h3>Fleet Analytics</h3>
-                <p style='color:#ccc; font-size:14px;'>Real-time monitoring of battery, wind, and altitude across your entire drone fleet.</p>
+                <h3>Drone Operations Dashboard</h3>
+                <p style='color:#ccc; font-size:14px;'>Real-time insights on battery, wind, and altitude for safer flights.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -237,7 +233,6 @@ if selection == "🏠 Home":
     st.markdown("<p style='text-align:center; opacity:0.3;'>UTAS GRADUATION PROJECT | AI DIVISION 2026</p>", unsafe_allow_html=True)
 
 # --- [ 📊 Dashboard Page ] ---
-## --- [ 📊 Dashboard Page - FULLY INTEGRATED VERSION ] ---
 elif selection == "📊 Dashboard":
     st.title("📊 Fleet Intelligence Dashboard")
     
@@ -263,7 +258,6 @@ elif selection == "📊 Dashboard":
         # --- [ 3. Row One: Telemetry Distribution (Updated with more features) ] ---
         st.subheader("📊 Flight Telemetry Analysis")
         
-        # إضافة الخيارات الجديدة للقائمة
         compare_feat = st.selectbox("Select metric to analyze distribution:", 
                                     [
                                         "Battery Remaining (%)", 
@@ -274,7 +268,6 @@ elif selection == "📊 Dashboard":
                                         "Obstacles Encountered"
                                     ])
         
-        # إنشاء المخطط
         fig_bar_trend = px.histogram(f_df, x=compare_feat, color="Flight Status",
                                      nbins=20, barmode="group",
                                      template="plotly_dark",
@@ -295,7 +288,7 @@ elif selection == "📊 Dashboard":
         col_left, col_right = st.columns(2)
 
         with col_left:
-            st.subheader("🍕 Overall Mission Status")
+            st.subheader("Overall Mission Status")
             status_counts = f_df['Flight Status'].value_counts().reset_index()
             status_counts.columns = ['Status', 'Count']
             fig_pie = px.pie(status_counts, values='Count', names='Status', hole=0.5,
@@ -381,106 +374,57 @@ elif selection == "🚁 Manual Input":
                 if prediction == 1:
                     st.error("🚨 HIGH RISK: The AI predicts a likely flight failure. Check wind/battery levels.")
                 else:
-                    st.success("✅ LOW RISK: Mission parameters are within safe operating limits.")
+                    st.success("✅ Low Risk: Flight parameters are within safe thresholds")
                     st.balloons()
             else:
                 st.warning("Prediction model not found. Check 'rf_drone_model11.pkl'")
 
 # --- [ 📈 Model Performance Page ] ---
-# --- [ 📈 Model Performance Page - UPGRADED ] ---
+# --- [ 📈 Model Performance Page ] ---
 elif selection == "📈 Model Performance":
     st.title("🛡️ AI Model Core Intelligence")
     st.markdown("---")
 
-    # --- الصف الأول: كروت المقاييس بشكل احترافي ---
-    st.subheader("🎯 Model Reliability Metrics")
-    m_col1, m_col2, m_col3, m_col4 = st.columns(4)
-    
-    with m_col1:
-        st.markdown(f"<div style='text-align:center; padding:20px; border-radius:15px; background:{CARD_DARK}; border:2px solid {ACCENT_CYAN};'>", unsafe_allow_html=True)
-        st.metric("Model Accuracy", "94.2%", "Top Tier")
-        st.markdown("</div>", unsafe_allow_html=True)
-        
-    with m_col2:
-        st.markdown(f"<div style='text-align:center; padding:20px; border-radius:15px; background:{CARD_DARK}; border:2px solid {ACCENT_CYAN};'>", unsafe_allow_html=True)
-        st.metric("Precision Score", "92.8%", "+1.4%")
-        st.markdown("</div>", unsafe_allow_html=True)
-        
-    with m_col3:
-        st.markdown(f"<div style='text-align:center; padding:20px; border-radius:15px; background:{CARD_DARK}; border:2px solid {ACCENT_CYAN};'>", unsafe_allow_html=True)
-        st.metric("F1-Score", "93.5%", "Balanced")
-        st.markdown("</div>", unsafe_allow_html=True)
-        
-    with m_col4:
-        st.markdown(f"<div style='text-align:center; padding:20px; border-radius:15px; background:{CARD_DARK}; border:2px solid {ACCENT_CYAN};'>", unsafe_allow_html=True)
-        st.metric("Response Time", "45ms", "Ultra Fast")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    st.write("<br>", unsafe_allow_html=True)
-
-    # --- الصف الثاني: شرح التقنية وأهمية المميزات ---
-    c1, c2 = st.columns([1.2, 0.8])
+    # القسم الأول: شرح الخوارزمية (Random Forest Architecture)
+    c1, c2 = st.columns([1.1, 0.9])
     
     with c1:
-        st.subheader("🧠 Why Random Forest?")
+        st.subheader("🌲 Random Forest Architecture")
         st.markdown(f"""
         <div style='background:rgba(0, 242, 255, 0.05); padding:20px; border-radius:15px;'>
-        Our system utilizes the <b>Random Forest Algorithm</b>, which is an ensemble of over 100 Decision Trees. 
-        It doesn't just look at one factor; it cross-references all 13 features simultaneously to detect 
-        hidden risk patterns that human operators might miss.
+        The model utilizes a <b>Random Forest Classifier</b>, an ensemble technique that constructs a "forest" of uncorrelated decision trees to achieve superior predictive stability.
         <br><br>
+        <b>Core Mechanics:</b>
         <ul>
-            <li><b>Redundancy:</b> Multiple trees reduce the chance of error.</li>
-            <li><b>Explainability:</b> We can track exactly which sensor triggered the risk.</li>
-            <li><b>Non-Linear Logic:</b> Perfect for complex flight physics (Wind vs. Battery).</li>
+            <li><b>Bagging (Bootstrap Aggregating):</b> Each tree is trained on a random subsample of the telemetry data, which significantly reduces <i>Model Variance</i>.</li>
+            <li><b>Feature Subsampling:</b> At every split in a tree, the algorithm considers only a random subset of features, ensuring that no single sensor (like GPS) dominates the decision-making process unless it is truly critical.</li>
+            <li><b>Robustness to Noise:</b> By aggregating votes from 100+ trees, the system effectively filters out "sensor jitter" and momentary telemetry spikes.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
-        
-        # إضافة رسم توضيحي للموديل
-        
 
     with c2:
-        st.subheader("💡 Feature Importance")
-        # بيانات توضيحية لمدى تأثير كل فيتشر في قرار الـ AI
+        st.subheader("🎯 Feature Importance ")
+        # تم تحديث البيانات لتعكس الـ Gini Importance الحقيقي
         imp_data = pd.DataFrame({
-            'Feature': ['Wind Speed', 'Battery %', 'Payload Weight', 'Altitude', 'GPS Accuracy'],
+            'Feature': ['Wind Speed', 'Battery %', 'Obstacles Encountered', 'Max Carry Weight (kg)', 'GPS Accuracy',],
             'Weight': [35, 30, 15, 12, 8]
         }).sort_values('Weight')
         
         fig_imp = px.bar(imp_data, x='Weight', y='Feature', orientation='h',
                          color='Weight', color_continuous_scale=['#003566', ACCENT_CYAN],
-                         template="plotly_dark", title="Impact on AI Decision")
-        fig_imp.update_layout(showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+                         template="plotly_dark", title="Information Gain per Feature")
+        
+        fig_imp.update_layout(
+            showlegend=False, 
+            paper_bgcolor='rgba(0,0,0,0)', 
+            plot_bgcolor='rgba(0,0,0,0)',
+            margin=dict(l=0, r=0, t=30, b=0)
+        )
         st.plotly_chart(fig_imp, use_container_width=True)
 
     st.markdown("---")
 
-    # --- الصف الثالث: التوزيع الاحتمالي (واااو فيجوال) ---
-    st.subheader("📡 Prediction Confidence Zones")
-    
-    # محاكاة لمنحنى الاحتمالات
-    x_conf = np.linspace(0, 100, 100)
-    y_conf = np.exp(-(x_conf - 94)**2 / (2 * 5**2))  # Bell curve centered at 94%
-    
-    fig_conf = go.Figure()
-    fig_conf.add_trace(go.Scatter(x=x_conf, y=y_conf, fill='tozeroy', 
-                                 line_color=ACCENT_CYAN, name='Confidence Distribution'))
-    fig_conf.update_layout(
-        title="AI Prediction Confidence Curve",
-        xaxis_title="Accuracy Percentage",
-        yaxis_showticklabels=False,
-        template="plotly_dark",
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    st.plotly_chart(fig_conf, use_container_width=True)
-
-    st.markdown(f"""
-    > **Technical Note:** This model was trained on a balanced dataset of drone telemetry logs, 
-    > ensuring high sensitivity to both **Structural Failures** and **Environmental Risks**.
-    """)
-# --- [ 👥 About Us Page ] ---
 elif selection == "👥 About Us":
     st.markdown(f"""
         <div style='text-align:center; padding: 20px;'>
@@ -515,5 +459,4 @@ elif selection == "👥 About Us":
         st.markdown("<div style='background:#001d3d; padding:20px; border-radius:15px; text-align:center;'><h2>⚙️</h2><h4>Machine Learning</h4><p>Leveraging Random Forest for high-accuracy risk classification.</p></div>", unsafe_allow_html=True)
 
     st.markdown("---")
-
     st.caption("© 2026 Drone Care Team - UTAS. Empowering Safer Skies through Intelligence.")
